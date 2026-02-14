@@ -2,17 +2,31 @@ const accountModel = require("../models/account.model");
 
 
 async function createAccountController(req, res) {
+    try {
+        const user = req.user;
+        const { currency } = req.body;
 
-    const user = req.user;
+        // Validate currency
+        const validCurrencies = ['INR', 'USD', 'EUR'];
+        if (currency && !validCurrencies.includes(currency)) {
+            return res.status(400).json({
+                message: "Invalid currency. Must be INR, USD, or EUR"
+            });
+        }
 
-    const account = await accountModel.create({
-        user: user._id
-    })
+        const account = await accountModel.create({
+            user: user._id,
+            currency: currency || 'INR'  // Use provided currency or default to INR
+        });
 
-    res.status(201).json({
-        account
-    })
+        return res.status(201).json({ account });
 
+    } catch (error) {
+        console.error('Account creation error:', error);
+        return res.status(500).json({
+            message: "Failed to create account"
+        });
+    }
 }
 
 async function getUserAccountsController(req, res) {

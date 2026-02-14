@@ -1,10 +1,49 @@
+# Dependencies
 node_modules/
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# Environment variables
 .env
-*.log
-.DS_Store
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Next.js
+banking-frontend/.next/
+banking-frontend/out/
+banking-frontend/build/
+banking-frontend/dist/
+
+# Production
+build/
+dist/
+
+# Debug logs
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+lerna-debug.log*
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
 .vscode/
 .idea/
-generate-refresh-token.js
+*.swp
+*.swo
+*~
+
+# Testing
+coverage/
+.nyc_output/
+
+# Misc
+*.log
+.cache/
+temp/
+tmp/

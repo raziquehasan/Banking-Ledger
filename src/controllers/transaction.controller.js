@@ -113,31 +113,31 @@ async function createTransaction(req, res) {
         const session = await mongoose.startSession()
         session.startTransaction()
 
-        transaction = (await transactionModel.create([ {
+        transaction = (await transactionModel.create([{
             fromAccount,
             toAccount,
             amount,
             idempotencyKey,
             status: "PENDING"
-        } ], { session }))[ 0 ]
+        }], { session }))[0]
 
-        const debitLedgerEntry = await ledgerModel.create([ {
+        const debitLedgerEntry = await ledgerModel.create([{
             account: fromAccount,
             amount: amount,
             transaction: transaction._id,
             type: "DEBIT"
-        } ], { session })
+        }], { session })
 
         await (() => {
             return new Promise((resolve) => setTimeout(resolve, 15 * 1000));
         })()
 
-        const creditLedgerEntry = await ledgerModel.create([ {
+        const creditLedgerEntry = await ledgerModel.create([{
             account: toAccount,
             amount: amount,
             transaction: transaction._id,
             type: "CREDIT"
-        } ], { session })
+        }], { session })
 
         await transactionModel.findOneAndUpdate(
             { _id: transaction._id },
@@ -208,19 +208,19 @@ async function createInitialFundsTransaction(req, res) {
         status: "PENDING"
     })
 
-    const debitLedgerEntry = await ledgerModel.create([ {
+    const debitLedgerEntry = await ledgerModel.create([{
         account: fromUserAccount._id,
         amount: amount,
         transaction: transaction._id,
         type: "DEBIT"
-    } ], { session })
+    }], { session })
 
-    const creditLedgerEntry = await ledgerModel.create([ {
+    const creditLedgerEntry = await ledgerModel.create([{
         account: toAccount,
         amount: amount,
         transaction: transaction._id,
         type: "CREDIT"
-    } ], { session })
+    }], { session })
 
     transaction.status = "COMPLETED"
     await transaction.save({ session })
@@ -236,7 +236,85 @@ async function createInitialFundsTransaction(req, res) {
 
 }
 
+/**
+ * GET /api/transactions
+ * Get transaction history for logged-in user
+ * Supports filtering by: account, status, date range
+ * Enterprise-grade pagination with metadata
+ */
+async function getTransactionHistory(req, res) {
+    try {
+        const user = req.user;
+        const { accountId, status, startDate, endDate, limit = 50, page = 1 } = req.query;
+
+        // Parse pagination params
+        const limitNum = parseInt(limit);
+        const pageNum = parseInt(page);
+        const skip = (pageNum - 1) * limitNum;
+
+        // Get all user's accounts
+        const userAccounts = await accountModel.find({ user: user._id }).select('_id');
+        const accountIds = userAccounts.map(acc => acc._id);
+
+        // Build query
+        const query = {
+            $or: [
+                { fromAccount: { $in: accountIds } },
+                { toAccount: { $in: accountIds } }
+            ]
+        };
+
+        // Apply filters
+        if (accountId) {
+            query.$or = [
+                { fromAccount: accountId },
+                { toAccount: accountId }
+            ];
+        }
+
+        if (status) {
+            query.status = status;
+        }
+
+        if (startDate || endDate) {
+            query.createdAt = {};
+            if (startDate) query.createdAt.$gte = new Date(startDate);
+            if (endDate) query.createdAt.$lte = new Date(endDate);
+        }
+
+        // Get total count for pagination metadata
+        const total = await transactionModel.countDocuments(query);
+
+        // Fetch transactions with pagination
+        const transactions = await transactionModel.find(query)
+            .populate('fromAccount', 'currency')
+            .populate('toAccount', 'currency')
+            .sort({ createdAt: -1 })
+            .skip(skip)
+            .limit(limitNum);
+
+        // Calculate pagination metadata
+        const pages = Math.ceil(total / limitNum);
+
+        return res.status(200).json({
+            transactions,
+            count: transactions.length,
+            total,
+            page: pageNum,
+            pages,
+            hasMore: pageNum < pages
+        });
+
+    } catch (error) {
+        console.error('Transaction history fetch error:', error);
+        return res.status(500).json({
+            message: "Failed to fetch transaction history"
+        });
+    }
+}
+
 module.exports = {
     createTransaction,
-    createInitialFundsTransaction
+    createInitialFundsTransaction,
+    getTransactionHistory
 }

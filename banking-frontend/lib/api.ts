@@ -51,4 +51,22 @@ export const transactionAPI = {
         const response = await axiosInstance.post('/transactions', data);
         return response.data;
     },
+
+    getTransactionHistory: async (params?: {
+        accountId?: string;
+        status?: string;
+        limit?: number;
+        page?: number;
+    }): Promise<{ transactions: Transaction[]; count: number; total: number; page: number; pages: number }> => {
+        const response = await axiosInstance.get('/transactions', { params });
+        return response.data;
+    },
+
+    getLedgerEntries: async (accountId: string, params?: {
+        limit?: number;
+        page?: number;
+    }): Promise<{ accountId: string; entries: any[]; count: number; total: number; page: number; pages: number }> => {
+        const response = await axiosInstance.get(`/ledger/${accountId}`, { params });
+        return response.data;
+    },
 };

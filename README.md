@@ -1,80 +1,65 @@
-# 🏦 Banking Ledger System
+# 🏦 Premium Banking Application
 
-A production-grade **Banking & Ledger Management System** built with **Node.js**, **Express**, **MongoDB**, and **Next.js 14**. Features complete transaction processing with ACID compliance, JWT authentication, and a modern fintech dashboard.
+A **production-grade fintech application** built with Next.js 14, Express.js, and MongoDB. Features enterprise-level UI/UX, double-entry bookkeeping, and real-time transaction processing.
 
-[![Node.js](https://img.shields.io/badge/Node.js-18+-green.svg)](https://nodejs.org/)
-[![MongoDB](https://img.shields.io/badge/MongoDB-6.0+-green.svg)](https://www.mongodb.com/)
-[![Next.js](https://img.shields.io/badge/Next.js-14-black.svg)](https://nextjs.org/)
-[![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-
----
-
-## 📋 Table of Contents
-
-- [Features](#-features)
-- [Tech Stack](#-tech-stack)
-- [Project Structure](#-project-structure)
-- [Installation](#-installation)
-- [Environment Setup](#-environment-setup)
-- [Running the Application](#-running-the-application)
-- [API Documentation](#-api-documentation)
-- [Security](#-security)
-- [Testing](#-testing)
-- [Deployment](#-deployment)
-- [Contributing](#-contributing)
-- [License](#-license)
+![Status](https://img.shields.io/badge/Status-Production%20Ready-success)
+![License](https://img.shields.io/badge/License-MIT-blue)
 
 ---
 
 ## ✨ Features
 
-### Backend (Node.js + Express + MongoDB)
-- ✅ **User Authentication** - JWT-based auth with HTTP-only cookies
-- ✅ **Account Management** - Multi-currency account support (INR, USD, EUR)
-- ✅ **Transaction Processing** - 10-step ACID-compliant transaction flow
-- ✅ **Double-Entry Ledger** - Complete audit trail with debit/credit entries
-- ✅ **Idempotency** - Prevent duplicate transactions with unique keys
-- ✅ **Email Notifications** - Gmail OAuth2 integration for transaction alerts
-- ✅ **Token Blacklisting** - Secure logout with token invalidation
-- ✅ **Balance Tracking** - Real-time balance calculation from ledger
+### 🎨 **Premium UI/UX**
+- **Glassmorphic Design** - Modern dark theme with backdrop blur effects
+- **Framer Motion Animations** - Smooth page transitions and micro-interactions
+- **Responsive Layout** - Mobile-first design with Tailwind CSS
+- **Premium Components** - Reusable Button, Input, Card, Badge, Modal components
 
-### Frontend (Next.js 14 + TypeScript + Tailwind CSS)
-- ✅ **Modern Dashboard** - Responsive fintech UI with dark sidebar
-- ✅ **Account Overview** - View all accounts with real-time balances
-- ✅ **Money Transfers** - Secure transfers with form validation
-- ✅ **Profile Management** - User information and logout
-- ✅ **Toast Notifications** - Real-time feedback with Sonner
-- ✅ **Form Validation** - Zod + React Hook Form integration
-- ✅ **State Management** - Zustand for global state
-- ✅ **Route Protection** - Middleware-based authentication
+### 💳 **Core Banking Features**
+- **Multi-Currency Accounts** - Support for INR, USD, EUR, GBP, JPY, AUD, CAD
+- **Real-time Transfers** - Instant money transfers between accounts
+- **Transaction History** - Complete audit trail with filters and search
+- **Account Ledger** - Double-entry bookkeeping with running balance
+- **Email Notifications** - Automated emails for all transactions
+
+### 🔐 **Security**
+- **JWT Authentication** - Secure token-based auth with HTTP-only cookies
+- **Password Hashing** - bcrypt encryption for user passwords
+- **CORS Protection** - Configured for secure cross-origin requests
+- **Input Validation** - Zod schemas for frontend, Joi for backend
+- **Idempotency Keys** - Prevent duplicate transactions
+
+### 📊 **Enterprise Features**
+- **Running Balance Column** - Shows balance after each transaction (rare in student projects!)
+- **Financial Aggregation** - Real-time calculation of credits, debits, net change
+- **Advanced Filters** - Type, status, date range filtering
+- **Export Functionality** - CSV export for transactions and ledger
+- **Pagination** - Efficient data loading with metadata
 
 ---
 
 ## 🛠️ Tech Stack
 
-### Backend
-| Technology | Purpose |
-|------------|---------|
-| **Node.js** | Runtime environment |
-| **Express** | Web framework |
-| **MongoDB** | Database |
-| **Mongoose** | ODM |
-| **JWT** | Authentication |
-| **Bcrypt** | Password hashing |
-| **Nodemailer** | Email service |
-| **Google APIs** | OAuth2 for Gmail |
+### **Frontend**
+- **Framework:** Next.js 14 (App Router)
+- **Language:** TypeScript
+- **Styling:** Tailwind CSS v4
+- **Animations:** Framer Motion
+- **Charts:** Recharts
+- **State Management:** Zustand
+- **Forms:** React Hook Form + Zod
+- **HTTP Client:** Axios
+- **Notifications:** Sonner
+- **Icons:** Lucide React
 
-### Frontend
-| Technology | Purpose |
-|------------|---------|
-| **Next.js 14** | React framework (App Router) |
-| **TypeScript** | Type safety |
-| **Tailwind CSS** | Styling |
-| **Axios** | HTTP client |
-| **Zustand** | State management |
-| **React Hook Form** | Form handling |
-| **Zod** | Schema validation |
-| **Sonner** | Toast notifications |
+### **Backend**
+- **Runtime:** Node.js
+- **Framework:** Express.js
+- **Database:** MongoDB with Mongoose
+- **Authentication:** JWT + bcrypt
+- **Validation:** Joi
+- **Email:** Nodemailer with OAuth2 (Gmail)
+- **Dev Tools:** Nodemon
 
 ---
 
@@ -82,349 +67,302 @@ A production-grade **Banking & Ledger Management System** built with **Node.js**
 
 ```
 Banking/
-├── src/
-│   ├── config/
-│   │   └── db.js                 # MongoDB connection
-│   ├── controllers/
-│   │   ├── auth.controller.js    # Authentication logic
-│   │   ├── account.controller.js # Account management
-│   │   └── transaction.controller.js # Transaction processing
-│   ├── middleware/
-│   │   └── auth.middleware.js    # JWT verification
-│   ├── models/
-│   │   ├── user.model.js         # User schema
-│   │   ├── account.model.js      # Account schema
-│   │   ├── transaction.model.js  # Transaction schema
-│   │   ├── ledger.model.js       # Ledger entry schema
-│   │   └── blacklist.model.js    # Token blacklist schema
-│   ├── routes/
-│   │   ├── auth.routes.js        # Auth endpoints
-│   │   ├── account.routes.js     # Account endpoints
-│   │   └── transaction.routes.js # Transaction endpoints
-│   ├── services/
-│   │   └── email.service.js      # Email sending logic
-│   └── app.js                    # Express app setup
-├── banking-frontend/             # Next.js frontend
+├── banking-frontend/          # Next.js Frontend
 │   ├── app/
-│   │   ├── (auth)/               # Auth pages
-│   │   └── (dashboard)/          # Dashboard pages
-│   ├── components/               # React components
-│   ├── lib/                      # Utilities & API
-│   ├── store/                    # Zustand stores
-│   └── types/                    # TypeScript types
-├── server.js                     # Server entry point
-├── .env.example                  # Environment template
-└── README.md                     # This file
+│   │   ├── (auth)/           # Authentication pages
+│   │   │   ├── login/
+│   │   │   └── register/
+│   │   └── (dashboard)/      # Protected dashboard pages
+│   │       ├── dashboard/    # Overview with charts
+│   │       ├── accounts/     # Account management
+│   │       ├── transactions/ # Transfer money
+│   │       ├── ledger/       # Transaction audit trail
+│   │       └── profile/      # User profile
+│   ├── components/
+│   │   ├── ui/              # Reusable UI components
+│   │   ├── Sidebar.tsx      # Navigation sidebar
+│   │   └── Topbar.tsx       # Top navigation bar
+│   ├── lib/                 # Utilities and API client
+│   ├── store/               # Zustand state management
+│   └── types/               # TypeScript definitions
+│
+└── src/                      # Express.js Backend
+    ├── config/              # Database configuration
+    ├── controllers/         # Route controllers
+    ├── middleware/          # Auth middleware
+    ├── models/              # Mongoose schemas
+    ├── routes/              # API routes
+    ├── services/            # Email service
+    └── app.js               # Express app setup
 ```
 
 ---
 
-## 🚀 Installation
+## 🚀 Getting Started
 
-### Prerequisites
-- **Node.js** 18+ installed
-- **MongoDB** 6.0+ running
-- **Gmail account** (for email notifications)
-- **Git** installed
+### **Prerequisites**
+- Node.js 18+ and npm
+- MongoDB Atlas account (or local MongoDB)
+- Gmail account for email notifications (optional)
 
-### Clone Repository
+### **1. Clone Repository**
 ```bash
-git clone https://github.com/raziquehasan/Banking-Ledger.git
-cd Banking-Ledger
+git clone <repository-url>
+cd Banking
 ```
 
-### Install Backend Dependencies
+### **2. Backend Setup**
 ```bash
+# Install dependencies
 npm install
-```
 
-### Install Frontend Dependencies
-```bash
-cd banking-frontend
-npm install
-cd ..
-```
-
----
-
-## 🔐 Environment Setup
-
-### 1. Create Backend `.env` File
-```bash
+# Create .env file
 cp .env.example .env
-```
 
-### 2. Configure Environment Variables
+# Add your MongoDB URI and JWT secret
+MONGODB_URI=your_mongodb_connection_string
+PORT=5000
+JWT_SECRET=your_secure_random_string
+EMAIL_USER=your_gmail@gmail.com
+CLIENT_ID=your_google_oauth_client_id
+CLIENT_SECRET=your_google_oauth_client_secret
+REFRESH_TOKEN=your_google_oauth_refresh_token
 
-Edit `.env` and add your values:
-
-```env
-# Database
-MONGODB_URI=mongodb://localhost:27017/banking
-
-# Server
-PORT=3000
-
-# JWT Secret (generate random string)
-JWT_SECRET=your_super_secret_jwt_key_here
-
-# Email Service (Gmail OAuth2)
-EMAIL_USER=your_email@gmail.com
-CLIENT_ID=your_google_client_id
-CLIENT_SECRET=your_google_client_secret
-REFRESH_TOKEN=your_google_refresh_token
-```
-
-### 3. Gmail OAuth2 Setup
-
-**Get OAuth2 Credentials:**
-
-1. Go to [Google Cloud Console](https://console.cloud.google.com/)
-2. Create a new project
-3. Enable **Gmail API**
-4. Create **OAuth 2.0 Client ID** (Web application)
-5. Add redirect URI: `https://developers.google.com/oauthplayground`
-6. Copy **Client ID** and **Client Secret**
-
-**Generate Refresh Token:**
-
-1. Go to [OAuth Playground](https://developers.google.com/oauthplayground)
-2. Click settings (⚙️) → Use your own OAuth credentials
-3. Enter your Client ID and Client Secret
-4. Select scope: `https://mail.google.com/`
-5. Authorize APIs
-6. Exchange authorization code for tokens
-7. Copy **Refresh Token**
-
-### 4. Frontend Environment
-```bash
-cd banking-frontend
-echo "NEXT_PUBLIC_API_BASE_URL=http://localhost:3000/api" > .env.local
-```
-
----
-
-## ▶️ Running the Application
-
-### Start Backend Server
-```bash
-# Development mode with auto-reload
+# Start backend server
 npx nodemon server.js
-
-# OR production mode
-node server.js
 ```
 
-**Backend runs on:** `http://localhost:3000`
+Backend will run on `http://localhost:5000`
 
-### Start Frontend Server
+### **3. Frontend Setup**
 ```bash
 cd banking-frontend
+
+# Install dependencies
+npm install
+
+# Create .env.local file
+echo "NEXT_PUBLIC_API_BASE_URL=http://localhost:5000/api" > .env.local
+
+# Start frontend dev server
 npm run dev
 ```
 
-**Frontend runs on:** `http://localhost:3001`
+Frontend will run on `http://localhost:3000`
 
 ---
 
-## 📚 API Documentation
+## 📸 Screenshots
 
-### Base URL
+### **Login Page**
+Glassmorphic design with floating animations and security badges.
+
+### **Dashboard**
+- Gradient balance card with trending indicator
+- Animated Recharts line chart
+- Quick stats cards
+- Account overview
+- Recent transactions
+
+### **Ledger Page** ⭐ **Enterprise Feature**
+- **Summary card** with total credits, debits, net change
+- **Running balance column** (shows balance after each transaction)
+- Advanced filters (type, sort order)
+- Expandable transaction details
+- Staggered animations
+
+### **Transactions Page**
+- Transfer form with live balance preview
+- Confirmation modal
+- Success confetti animation
+- Transaction history table with status filters
+
+### **Accounts Page**
+- Glassmorphic account cards
+- Real-time balance display
+- Create account modal
+- Hover effects
+
+### **Profile Page**
+- Gradient avatar with verified badge
+- Account statistics
+- Security settings section
+- Logout confirmation modal
+
+---
+
+## 🎯 Key Highlights
+
+### **1. Running Balance Column** 🔥
+Most student projects show transaction lists. This app calculates and displays the **balance after each transaction**, demonstrating understanding of:
+- Sequential transaction logic
+- Double-entry bookkeeping
+- Dynamic state calculations
+
+### **2. Financial Aggregation**
+Real-time calculation of:
+- Total credits (green)
+- Total debits (red)
+- Net change (color-coded)
+- Current balance
+
+### **3. Premium UI/UX**
+- Glassmorphism with backdrop blur
+- Gradient backgrounds
+- Framer Motion animations
+- Micro-interactions
+- Color-coded financial data
+
+### **4. Production-Ready Code**
+- TypeScript for type safety
+- Proper error handling
+- Loading states
+- Empty states with CTAs
+- Responsive design
+- Accessibility considerations
+
+---
+
+## 🔧 API Endpoints
+
+### **Authentication**
 ```
-http://localhost:3000/api
+POST /api/auth/register    - Register new user
+POST /api/auth/login       - Login user
+POST /api/auth/logout      - Logout user
+GET  /api/auth/me          - Get current user
 ```
 
-### Authentication Endpoints
-
-#### Register User
-```http
-POST /auth/register
-Content-Type: application/json
-
-{
-  "name": "John Doe",
-  "email": "john@example.com",
-  "password": "password123"
-}
+### **Accounts**
+```
+POST /api/accounts         - Create account
+GET  /api/accounts         - Get all accounts
+GET  /api/accounts/:id/balance - Get account balance
 ```
 
-#### Login
-```http
-POST /auth/login
-Content-Type: application/json
-
-{
-  "email": "john@example.com",
-  "password": "password123"
-}
+### **Transactions**
+```
+POST /api/transactions     - Create transaction
+GET  /api/transactions     - Get transaction history (with pagination)
 ```
 
-#### Logout
-```http
-POST /auth/logout
-Cookie: token=<jwt_token>
+### **Ledger**
 ```
-
-### Account Endpoints
-
-#### Get All Accounts
-```http
-GET /accounts
-Cookie: token=<jwt_token>
-```
-
-#### Create Account
-```http
-POST /accounts
-Cookie: token=<jwt_token>
-Content-Type: application/json
-
-{
-  "currency": "INR"
-}
-```
-
-#### Get Account Balance
-```http
-GET /accounts/balance/:accountId
-Cookie: token=<jwt_token>
-```
-
-### Transaction Endpoints
-
-#### Create Transaction
-```http
-POST /transactions
-Cookie: token=<jwt_token>
-Content-Type: application/json
-
-{
-  "fromAccount": "account_id_1",
-  "toAccount": "account_id_2",
-  "amount": 1000,
-  "idempotencyKey": "unique-uuid-here"
-}
+GET  /api/ledger/:accountId - Get ledger entries (with pagination)
 ```
 
 ---
 
-## 🔒 Security Features
+## 🎨 Design System
 
-### ✅ Implemented Security Measures
+### **Colors**
+```css
+Primary: Indigo 600 → Purple 600 (gradient)
+Success: Emerald 500
+Danger: Rose 500
+Warning: Amber 500
+Background: Slate 950
+Cards: Slate 900/50 (glassmorphic)
+```
 
-1. **Password Hashing** - Bcrypt with salt rounds
-2. **JWT Authentication** - HTTP-only cookies
-3. **Token Blacklisting** - Invalidate tokens on logout
-4. **CORS Protection** - Configured for frontend origin
-5. **Input Validation** - Zod schemas on frontend
-6. **Idempotency Keys** - Prevent duplicate transactions
-7. **Environment Variables** - Sensitive data in `.env`
-8. **No Secrets in Code** - `.gitignore` excludes `.env`
+### **Animations**
+- Page transitions: Fade + slide
+- Staggered lists: 50ms delay per item
+- Hover effects: Scale, shadow, brightness
+- Loading states: Spin, pulse
 
-### ⚠️ Important Security Notes
+---
 
-- **Never commit `.env` file** to Git
-- **Use strong JWT_SECRET** (min 32 characters)
-- **Enable HTTPS** in production
-- **Use MongoDB authentication** in production
-- **Rotate refresh tokens** periodically
+## 📝 Environment Variables
+
+### **Backend (.env)**
+```env
+MONGODB_URI=mongodb+srv://...
+PORT=5000
+JWT_SECRET=your_secret_key
+EMAIL_USER=your_email@gmail.com
+CLIENT_ID=google_oauth_client_id
+CLIENT_SECRET=google_oauth_client_secret
+REFRESH_TOKEN=google_oauth_refresh_token
+```
+
+### **Frontend (.env.local)**
+```env
+NEXT_PUBLIC_API_BASE_URL=http://localhost:5000/api
+```
 
 ---
 
 ## 🧪 Testing
 
-### Manual Testing with Postman
+### **Manual Testing**
+1. Register a new user
+2. Create multiple accounts (different currencies)
+3. Transfer money between accounts
+4. Check ledger for running balance
+5. View dashboard charts
+6. Test filters and sorting
 
-1. **Register a user** → Get JWT cookie
-2. **Create 2 accounts** → Note account IDs
-3. **Transfer money** → Check balances
-4. **View ledger** → Verify debit/credit entries
-5. **Logout** → Token should be blacklisted
-
-### Test Credentials
-```
-Email: test@example.com
-Password: test123
-```
-
----
-
-## 🌐 Deployment
-
-### Backend (Node.js)
-
-**Recommended Platforms:**
-- [Railway](https://railway.app/)
-- [Render](https://render.com/)
-- [Heroku](https://heroku.com/)
-
-**Environment Variables:**
-- Set all `.env` variables in platform dashboard
-- Update `MONGODB_URI` to production database
-- Set `NODE_ENV=production`
-
-### Frontend (Next.js)
-
-**Recommended Platforms:**
-- [Vercel](https://vercel.com/) (Recommended)
-- [Netlify](https://netlify.com/)
-
-**Environment Variables:**
-- `NEXT_PUBLIC_API_BASE_URL=https://your-backend-url.com/api`
-
-### Database (MongoDB)
-
-**Recommended:**
-- [MongoDB Atlas](https://www.mongodb.com/cloud/atlas) (Free tier available)
+### **API Testing**
+Use Postman or Thunder Client:
+- Import collection from `/docs/postman_collection.json`
+- Test all endpoints
+- Verify JWT authentication
 
 ---
 
-## 🤝 Contributing
+## 🚀 Deployment
 
-Contributions are welcome! Please follow these steps:
+### **Frontend (Vercel)**
+```bash
+cd banking-frontend
+vercel deploy
+```
 
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
+### **Backend (Railway/Render)**
+1. Connect GitHub repository
+2. Set environment variables
+3. Deploy from main branch
+
+---
+
+## 🎓 Learning Outcomes
+
+This project demonstrates:
+- ✅ Full-stack development (MERN stack)
+- ✅ RESTful API design
+- ✅ JWT authentication
+- ✅ Database modeling (Mongoose)
+- ✅ State management (Zustand)
+- ✅ Form handling and validation
+- ✅ Real-time calculations
+- ✅ Premium UI/UX design
+- ✅ TypeScript proficiency
+- ✅ Production-ready code practices
 
 ---
 
 ## 📄 License
 
-This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) file for details.
+MIT License - feel free to use this project for learning and portfolio purposes.
 
 ---
 
 ## 👨‍💻 Author
 
-**Razique Hasan**
-
-- GitHub: [@raziquehasan](https://github.com/raziquehasan)
-- Repository: [Banking-Ledger](https://github.com/raziquehasan/Banking-Ledger)
+**Hasan Razique**
+- GitHub: [@hasanrazique](https://github.com/hasanrazique)
+- Email: hasanrazique@gmail.com
 
 ---
 
 ## 🙏 Acknowledgments
 
 - Next.js team for the amazing framework
-- MongoDB for the robust database
-- Vercel for deployment platform
-- All open-source contributors
-
----
-
-## 📞 Support
-
-For issues and questions:
-- Open an [Issue](https://github.com/raziquehasan/Banking-Ledger/issues)
-- Email: hasanrazique@gmail.com
+- Tailwind CSS for the utility-first CSS
+- Framer Motion for smooth animations
+- MongoDB for the database
 
 ---
 
 **⭐ If you found this project helpful, please give it a star!**
-
----
-
-**Built with ❤️ using Node.js, Express, MongoDB, and Next.js 14**
